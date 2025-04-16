@@ -47,21 +47,33 @@ namespace AI.Tests
 
     private void PerformAction(RaycastHit hit)
     {
-      Agent hitAgent = hit.transform.GetComponent<Agent>();
-      if (hitAgent != null)
-      {
-        _currentAgent = hitAgent;
+      if (TryBindAgent(hit))
         return;
-      }
 
       if (_currentAgent != null)
         MoveCurrentAgent(hit);
+    }
+
+    private bool TryBindAgent(RaycastHit hit)
+    {
+      Agent hitAgent = hit.transform.GetComponentInParent<Agent>();
+
+      if (hitAgent == null)
+        return false;
+
+      Logger.Log($"Binding agent: {hitAgent.gameObject.name}", Tags.MANUAL_TESTER);
+
+      _currentAgent?.Blackboard.VisualDebugger.ResetColor();
+      _currentAgent = hitAgent;
+      _currentAgent.Blackboard.VisualDebugger.SetColor(Color.red);
+      return true;
     }
 
     private void MoveCurrentAgent(RaycastHit hitInfo)
     {
       Assert.IsNotNull(_currentAgent, "_currentAgent != null");
 
+      Logger.Log($"Moving agent to new position: {_currentAgent.gameObject.name}", Tags.MANUAL_TESTER);
       _currentAgent.Move(hitInfo.point);
     }
   }

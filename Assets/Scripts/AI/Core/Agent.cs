@@ -1,21 +1,18 @@
 using UnityEngine;
 using UnityEngine.AI;
-using Utils;
-using Logger = Utils.Logger;
 
 namespace AI.Core
 {
   public class Agent : MonoBehaviour
   {
-    [SerializeField] private NavMeshAgent navMeshAgent;
+    [SerializeField] private Blackboard blackboard;
 
-    public void Start()
-    {
-      Logger.Log($"Hello my name is {gameObject.name}", Tags.AGENT);
-    }
+    public Blackboard Blackboard => blackboard;
 
     public void Move(Vector3 worldPosition)
     {
+      var navMeshAgent = blackboard.NavMeshAgent;
+
       if (NavMesh.SamplePosition(worldPosition, out NavMeshHit sampleHit, navMeshAgent.radius, NavMesh.AllAreas))
       {
         navMeshAgent.SetDestination(sampleHit.position);
