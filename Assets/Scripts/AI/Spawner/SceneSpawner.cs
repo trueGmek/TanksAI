@@ -1,4 +1,6 @@
 using UnityEngine;
+using Utils;
+using Logger = Utils.Logger;
 
 namespace AI.Core
 {
@@ -16,6 +18,7 @@ namespace AI.Core
 
     public override void Spawn()
     {
+      Logger.Log("Spawning agents", Tags.SPAWNER);
       _firstInstance = Instantiate(firstAgentPrefab, spawnPointOne);
       _secondInstance = Instantiate(secondAgentPrefab, spawnPointTwo);
 

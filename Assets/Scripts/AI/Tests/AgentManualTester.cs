@@ -3,6 +3,8 @@ using AI.Core;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.InputSystem;
+using Utils;
+using Logger = Utils.Logger;
 
 namespace AI.Tests
 {
@@ -22,10 +24,12 @@ namespace AI.Tests
 
     public void Bind(params Agent[] agents)
     {
-      Assert.IsNull(agents, "agents == null");
+      Assert.IsNotNull(agents, "agents == null");
       Assert.IsFalse(agents.Length == 0, "agents.Length == 0");
 
-      _agents.Clear();
+      Logger.Log($"Binding {agents.Length} agents", Tags.MANUAL_TESTER);
+
+      _agents = new List<Agent>();
       _agents.AddRange(agents);
     }
 

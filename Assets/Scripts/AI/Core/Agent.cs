@@ -1,6 +1,7 @@
-using System;
 using UnityEngine;
 using UnityEngine.AI;
+using Utils;
+using Logger = Utils.Logger;
 
 namespace AI.Core
 {
@@ -10,7 +11,7 @@ namespace AI.Core
 
     public void Start()
     {
-      Debug.Log($"Hello my name is {gameObject.name}");
+      Logger.Log($"Hello my name is {gameObject.name}", Tags.AGENT);
     }
 
     public void Move(Vector3 worldPosition)
