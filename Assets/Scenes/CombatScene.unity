@@ -750,10 +750,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2584054455302698965, guid: b34e1c21bda6dd849956861abc0369fa, type: 3}
+      propertyPath: m_Icon
+      value: 
+      objectReference: {fileID: 6519382022992737161, guid: 0000000000000000d000000000000000, type: 0}
     - target: {fileID: 6289298513624978560, guid: b34e1c21bda6dd849956861abc0369fa, type: 3}
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 264392845}
+    - target: {fileID: 6361284778599685718, guid: b34e1c21bda6dd849956861abc0369fa, type: 3}
+      propertyPath: m_Icon
+      value: 
+      objectReference: {fileID: 6519382022992737161, guid: 0000000000000000d000000000000000, type: 0}
     - target: {fileID: 7081722603923615225, guid: b34e1c21bda6dd849956861abc0369fa, type: 3}
       propertyPath: m_Name
       value: P_BattleArena_1
