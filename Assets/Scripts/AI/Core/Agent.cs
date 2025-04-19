@@ -1,3 +1,4 @@
+using AI.Combat;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -8,6 +9,8 @@ namespace AI.Core
     [SerializeField] private Blackboard blackboard;
 
     public Blackboard Blackboard => blackboard;
+    private NavMeshAgent NavMeshAgent => Blackboard.NavMeshAgent;
+    private Canon Canon => Blackboard.Canon;
 
     public void Move(Vector3 worldPosition)
     {
@@ -17,6 +20,18 @@ namespace AI.Core
       {
         navMeshAgent.SetDestination(sampleHit.position);
       }
+    }
+
+    public void Rotate(Vector3 direction)
+    {
+      NavMeshAgent.updateRotation = false;
+      transform.LookAt(direction);
+      NavMeshAgent.updateRotation = true;
+    }
+      
+    public void Shoot(Vector3 direction)
+    {
+      Canon.Shoot(direction);
     }
   }
 }

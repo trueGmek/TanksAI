@@ -96,6 +96,15 @@ namespace InputSystem
                 {
                     ""name"": ""Interact"",
                     ""type"": ""Button"",
+                    ""id"": ""b2771ca9-4559-4111-937e-72d9fb0b0201"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Select"",
+                    ""type"": ""Button"",
                     ""id"": ""117dc0ba-bd54-46db-87fc-ad12371895b0"",
                     ""expectedControlType"": """",
                     ""processors"": """",
@@ -120,7 +129,7 @@ namespace InputSystem
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Keyboard&Mouse"",
-                    ""action"": ""Interact"",
+                    ""action"": ""Select"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -132,6 +141,17 @@ namespace InputSystem
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Mouse"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2852555c-0a03-46a5-920a-d0ca818035b1"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Interact"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -204,6 +224,7 @@ namespace InputSystem
             // Admin
             m_Admin = asset.FindActionMap("Admin", throwIfNotFound: true);
             m_Admin_Interact = m_Admin.FindAction("Interact", throwIfNotFound: true);
+            m_Admin_Select = m_Admin.FindAction("Select", throwIfNotFound: true);
             m_Admin_Mouse = m_Admin.FindAction("Mouse", throwIfNotFound: true);
         }
 
@@ -286,6 +307,7 @@ namespace InputSystem
         private readonly InputActionMap m_Admin;
         private List<IAdminActions> m_AdminActionsCallbackInterfaces = new List<IAdminActions>();
         private readonly InputAction m_Admin_Interact;
+        private readonly InputAction m_Admin_Select;
         private readonly InputAction m_Admin_Mouse;
         /// <summary>
         /// Provides access to input actions defined in input action map "Admin".
@@ -302,6 +324,10 @@ namespace InputSystem
             /// Provides access to the underlying input action "Admin/Interact".
             /// </summary>
             public InputAction @Interact => m_Wrapper.m_Admin_Interact;
+            /// <summary>
+            /// Provides access to the underlying input action "Admin/Select".
+            /// </summary>
+            public InputAction @Select => m_Wrapper.m_Admin_Select;
             /// <summary>
             /// Provides access to the underlying input action "Admin/Mouse".
             /// </summary>
@@ -335,6 +361,9 @@ namespace InputSystem
                 @Interact.started += instance.OnInteract;
                 @Interact.performed += instance.OnInteract;
                 @Interact.canceled += instance.OnInteract;
+                @Select.started += instance.OnSelect;
+                @Select.performed += instance.OnSelect;
+                @Select.canceled += instance.OnSelect;
                 @Mouse.started += instance.OnMouse;
                 @Mouse.performed += instance.OnMouse;
                 @Mouse.canceled += instance.OnMouse;
@@ -352,6 +381,9 @@ namespace InputSystem
                 @Interact.started -= instance.OnInteract;
                 @Interact.performed -= instance.OnInteract;
                 @Interact.canceled -= instance.OnInteract;
+                @Select.started -= instance.OnSelect;
+                @Select.performed -= instance.OnSelect;
+                @Select.canceled -= instance.OnSelect;
                 @Mouse.started -= instance.OnMouse;
                 @Mouse.performed -= instance.OnMouse;
                 @Mouse.canceled -= instance.OnMouse;
@@ -467,6 +499,13 @@ namespace InputSystem
             /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
             /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
             void OnInteract(InputAction.CallbackContext context);
+            /// <summary>
+            /// Method invoked when associated input action "Select" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+            /// </summary>
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+            void OnSelect(InputAction.CallbackContext context);
             /// <summary>
             /// Method invoked when associated input action "Mouse" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
             /// </summary>
