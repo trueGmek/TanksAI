@@ -56,7 +56,7 @@ namespace AI.Tests
       Logger.Log($"Agent {_currentAgent.name} is shooting", Tags.MANUAL_TESTER);
       var shootDir = (hitAgent.transform.position - _currentAgent.transform.position).normalized;
       Debug.DrawLine(_currentAgent.transform.position, hitAgent.transform.position, Color.red, 1f);
-      _currentAgent.Rotate(shootDir);
+      // _currentAgent.Rotate(shootDir);
       _currentAgent.Shoot(shootDir);
     }
 

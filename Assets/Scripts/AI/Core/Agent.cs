@@ -4,22 +4,21 @@ using UnityEngine.AI;
 
 namespace AI.Core
 {
-  public class Agent : MonoBehaviour
+  public class Agent : MonoBehaviour, ISystem
   {
-    [SerializeField] private Blackboard blackboard;
-
-    public Blackboard Blackboard => blackboard;
+    public IBlackboard Blackboard { get; private set; }
     private NavMeshAgent NavMeshAgent => Blackboard.NavMeshAgent;
     private Canon Canon => Blackboard.Canon;
 
-    private void Start()
+    public void Initialize(IBlackboard blackboard)
     {
+      Blackboard = blackboard;
       Blackboard.Health.OnDeath += HandleAgentDeath;
     }
 
     public void Move(Vector3 worldPosition)
     {
-      var navMeshAgent = blackboard.NavMeshAgent;
+      var navMeshAgent = Blackboard.NavMeshAgent;
 
       if (NavMesh.SamplePosition(worldPosition, out NavMeshHit sampleHit, navMeshAgent.radius, NavMesh.AllAreas))
       {
@@ -27,6 +26,7 @@ namespace AI.Core
       }
     }
 
+    //TODO: MANAGE ROTATION
     public void Rotate(Vector3 direction)
     {
       NavMeshAgent.updateRotation = false;

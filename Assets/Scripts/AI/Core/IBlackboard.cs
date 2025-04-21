@@ -15,5 +15,6 @@ namespace AI.Core
     public DamageProcessor DamageProcessor { get; }
     public Animator Animator { get; }
     public Health Health { get; }
+    public Agent Agent { get; }
   }
 }

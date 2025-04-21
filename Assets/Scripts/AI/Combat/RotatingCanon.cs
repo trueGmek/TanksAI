@@ -1,26 +1,24 @@
 using AI.Core;
 using UnityEngine;
+using Utils;
 using Logger = Utils.Logger;
-using Tags = Utils.Tags;
 
 namespace AI.Combat
 {
-  public class BasicCanon : Canon
+  public class RotatingCanon : Canon
   {
     private BasicCanonData _canonData;
-    private Agent _agent;
     private static readonly int ShootTrigger = Animator.StringToHash("shoot");
 
     public override void Initialize(IBlackboard blackboard)
     {
       _canonData = blackboard.CanonData;
-      _agent = blackboard.Agent;
     }
 
     public override void Shoot(Vector3 direction)
     {
+      transform.LookAt(direction);
       Logger.Log("Shooting", Tags.CANON);
-      _agent.Rotate(direction);
       _canonData.Animator.SetTrigger(ShootTrigger);
 
       Transform spawnPoint = _canonData.SpawnPoint;

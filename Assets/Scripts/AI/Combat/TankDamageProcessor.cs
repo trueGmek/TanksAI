@@ -9,9 +9,10 @@ namespace AI.Combat
   public class TankDamageProcessor : DamageProcessor, ISystem
   {
     private static readonly int GetHIt = Animator.StringToHash("GetHit");
-    
+
     private Animator _animator;
     private Health _health;
+
     public void Initialize(IBlackboard blackboard)
     {
       _animator = blackboard.Animator;

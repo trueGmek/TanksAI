@@ -131,7 +131,7 @@ GameObject:
   - component: {fileID: 127641144}
   - component: {fileID: 127641143}
   m_Layer: 0
-  m_Name: GameplayManager
+  m_Name: '#GameplayManager'
   m_TagString: Untagged
   m_Icon: {fileID: 6519382022992737161, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -150,8 +150,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   agentManualTester: {fileID: 1570303286}
-  firstAgentPrefab: {fileID: 8085201418243086244, guid: 6b85a906f4369748e89eb9f12760aca8, type: 3}
-  secondAgentPrefab: {fileID: 8085201418243086244, guid: 6b85a906f4369748e89eb9f12760aca8, type: 3}
+  firstAgentPrefab: {fileID: 8085201418243086244, guid: ef26e4fd3fbc14b6f9888a524616d1b6, type: 3}
+  secondAgentPrefab: {fileID: 8085201418243086244, guid: ef26e4fd3fbc14b6f9888a524616d1b6, type: 3}
   spawnPointOne: {fileID: 5362902269536320519}
   spawnPointTwo: {fileID: 5362902269536320518}
 --- !u!114 &127641144
@@ -665,7 +665,7 @@ GameObject:
   - component: {fileID: 1570303287}
   - component: {fileID: 1570303286}
   m_Layer: 0
-  m_Name: AgentManualTester
+  m_Name: '#AgentManualTester'
   m_TagString: Untagged
   m_Icon: {fileID: 7174288486110832750, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0

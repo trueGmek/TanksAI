@@ -16,6 +16,7 @@ namespace AI.Core
     [SerializeField] private TankDamageProcessor damageProcessor;
     [SerializeField] private Animator animator;
     [SerializeField] private Health health;
+    [SerializeField] private Agent agent;
 
     private void Awake()
     {
@@ -26,12 +27,14 @@ namespace AI.Core
       Assert.IsNotNull(damageProcessor, "DamageProcessor != null");
       Assert.IsNotNull(animator, "Animator != null");
       Assert.IsNotNull(health, "health != null");
+      Assert.IsNotNull(agent, "agent != null");
     }
 
     private void Start()
     {
       canon.Initialize(this);
       damageProcessor.Initialize(this);
+      agent.Initialize(this);
     }
 
     public Canon Canon => canon;
@@ -41,5 +44,6 @@ namespace AI.Core
     public DamageProcessor DamageProcessor => damageProcessor;
     public Animator Animator => animator;
     public Health Health => health;
+    public Agent Agent => agent;
   }
 }
