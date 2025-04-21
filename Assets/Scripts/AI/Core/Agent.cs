@@ -14,11 +14,6 @@ namespace AI.Core
     private NavMeshAgent NavMeshAgent => Blackboard.NavMeshAgent;
     private Canon Canon => Blackboard.Canon;
 
-    private void Awake()
-    {
-      Canon.Initialize(Blackboard);
-    }
-
     public void Move(Vector3 worldPosition)
     {
       var navMeshAgent = blackboard.NavMeshAgent;
