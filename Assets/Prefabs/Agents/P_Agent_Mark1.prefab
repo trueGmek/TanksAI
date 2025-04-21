@@ -85,6 +85,11 @@ MonoBehaviour:
   navMeshAgent: {fileID: 4932763999456080005}
   visualDebugger: {fileID: 5967783888762927546}
   canon: {fileID: 3455457446028027853}
+  canonData:
+    animator: {fileID: 4142814024893171054}
+    projectile: {fileID: 4716603614808922246, guid: b545298410b628cf485ef1344a66cd92, type: 3}
+    spawnPoint: {fileID: 8416902651883109753}
+    velocity: 400
 --- !u!1 &4799090540431575713
 GameObject:
   m_ObjectHideFlags: 0
@@ -506,8 +511,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 229d777f647a4b9d8be5175fe4057811, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!95 &4142814024893171054 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 8489297152022552366, guid: ba21b45e774b8d086bde2d19c39e5b95, type: 3}
+  m_PrefabInstance: {fileID: 5525408424399575616}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6181118313480206457 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1831153003968569913, guid: ba21b45e774b8d086bde2d19c39e5b95, type: 3}
+  m_PrefabInstance: {fileID: 5525408424399575616}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &8416902651883109753 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4062504089039185721, guid: ba21b45e774b8d086bde2d19c39e5b95, type: 3}
   m_PrefabInstance: {fileID: 5525408424399575616}
   m_PrefabAsset: {fileID: 0}

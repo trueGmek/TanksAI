@@ -1,7 +1,7 @@
 using AI.Tests;
 using UnityEngine;
 
-namespace AI.Core
+namespace AI.Spawner
 {
   public abstract class Spawner : MonoBehaviour
   {

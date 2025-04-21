@@ -1,4 +1,6 @@
+using System;
 using AI.Combat;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -11,6 +13,11 @@ namespace AI.Core
     public Blackboard Blackboard => blackboard;
     private NavMeshAgent NavMeshAgent => Blackboard.NavMeshAgent;
     private Canon Canon => Blackboard.Canon;
+
+    private void Awake()
+    {
+      Canon.Initialize(Blackboard);
+    }
 
     public void Move(Vector3 worldPosition)
     {

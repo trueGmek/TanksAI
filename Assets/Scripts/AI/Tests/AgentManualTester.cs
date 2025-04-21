@@ -16,7 +16,7 @@ namespace AI.Tests
     private Agent _currentAgent;
 
     private void Awake()
-    {
+   {
       _inputSystemActions = new InputSystem.Actions();
       _inputSystemActions.Enable();
       _inputSystemActions.Admin.Select.performed += ManageSelectAction;
