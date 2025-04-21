@@ -14,5 +14,6 @@ namespace AI.Core
     public VisualDebugger VisualDebugger { get; }
     public DamageProcessor DamageProcessor { get; }
     public Animator Animator { get; }
+    public Health Health { get; }
   }
 }

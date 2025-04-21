@@ -1,6 +1,4 @@
-using System;
 using AI.Combat;
-using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -13,6 +11,11 @@ namespace AI.Core
     public Blackboard Blackboard => blackboard;
     private NavMeshAgent NavMeshAgent => Blackboard.NavMeshAgent;
     private Canon Canon => Blackboard.Canon;
+
+    private void Start()
+    {
+      Blackboard.Health.OnDeath += HandleAgentDeath;
+    }
 
     public void Move(Vector3 worldPosition)
     {
@@ -30,10 +33,15 @@ namespace AI.Core
       transform.LookAt(direction);
       NavMeshAgent.updateRotation = true;
     }
-      
+
     public void Shoot(Vector3 direction)
     {
       Canon.Shoot(direction);
+    }
+
+    private void HandleAgentDeath()
+    {
+      Destroy(gameObject);
     }
   }
 }
