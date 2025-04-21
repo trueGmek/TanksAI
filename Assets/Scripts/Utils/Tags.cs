@@ -6,5 +6,7 @@ namespace Utils
     public const string SPAWNER = "Spawner";
     public const string MANUAL_TESTER = "ManualTester";
     public const string CANON = "Canon";
+    public const string DAMAGE_APPLIER = "DamageApplier";
+    public const string DAMAGE_PROCESSOR = "DamageProcessor";
   }
 }

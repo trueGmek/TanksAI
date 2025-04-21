@@ -19,7 +19,7 @@ namespace AI.Spawner
       Logger.Log("Spawning agents", Tags.SPAWNER);
       
       Agent firstInstance = Instantiate(firstAgentPrefab, spawnPointOne.position, spawnPointOne.rotation);
-      Agent secondInstance = Instantiate(secondAgentPrefab, spawnPointTwo.position, spawnPointOne.rotation);
+      Agent secondInstance = Instantiate(secondAgentPrefab, spawnPointTwo.position, spawnPointTwo.rotation);
 
       AgentManualTester.Bind(firstInstance, secondInstance);
     }

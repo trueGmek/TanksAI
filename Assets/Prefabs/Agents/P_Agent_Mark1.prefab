@@ -90,6 +90,7 @@ MonoBehaviour:
     projectile: {fileID: 4716603614808922246, guid: b545298410b628cf485ef1344a66cd92, type: 3}
     spawnPoint: {fileID: 8416902651883109753}
     velocity: 400
+  damageProcessor: {fileID: 5259592637644324762}
 --- !u!1 &4799090540431575713
 GameObject:
   m_ObjectHideFlags: 0
@@ -125,6 +126,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6181118313480206457}
+  - {fileID: 2087552091174255909}
   m_Father: {fileID: 3605859541447316022}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &8664502492613703457
@@ -431,6 +433,72 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dde790e9b1524263ae1dd9d67f0f31d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &8216000442490128237
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2087552091174255909}
+  - component: {fileID: 5259592637644324762}
+  - component: {fileID: 6202057080416980723}
+  m_Layer: 6
+  m_Name: DamageProcessor
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2087552091174255909
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8216000442490128237}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6804618911845216337}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5259592637644324762
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8216000442490128237}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f369e710f9cd4246845b7c5e3b9e1afb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!65 &6202057080416980723
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8216000442490128237}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 0.61319995, z: 1}
+  m_Center: {x: 0, y: 0.0042551756, z: 0}
 --- !u!1001 &5525408424399575616
 PrefabInstance:
   m_ObjectHideFlags: 0

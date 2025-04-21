@@ -14,7 +14,8 @@ GameObject:
   - component: {fileID: 3514167948137689619}
   - component: {fileID: 4716603614808922246}
   - component: {fileID: 7636389295411449692}
-  m_Layer: 0
+  - component: {fileID: 1770804285721343028}
+  m_Layer: 6
   m_Name: P_Projectile_Mark1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -253,3 +254,16 @@ TrailRenderer:
   m_Autodestruct: 0
   m_Emitting: 1
   m_ApplyActiveColorSpace: 1
+--- !u!114 &1770804285721343028
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3493041273878204765}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61f69c34674b45d7ae5c799c04b99601, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 10

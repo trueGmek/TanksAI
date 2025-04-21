@@ -20,6 +20,11 @@ namespace Utils
     {
       Debug.LogError(FormatMessage(message, tag));
     }
+    
+    public static void LogError(Exception e, string tag = "")
+    {
+      Debug.LogError(FormatMessage(e.Message, tag));
+    }
 
     private static string FormatMessage(string message, string tag)
     {
