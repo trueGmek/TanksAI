@@ -10,5 +10,9 @@ namespace Utils
     public const string DAMAGE_PROCESSOR = "DamageProcessor";
     public const string LUA = "Lua";
     public const string LUA_MANAGER = "LuaManager";
+
+#if UNITY_EDITOR
+    public const string LUA_CODE_GEN = "LuaCodeGen";
+#endif
   }
 }
