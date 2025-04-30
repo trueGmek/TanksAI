@@ -1,0 +1,16 @@
+{
+    "name": "Tanks.Combat",
+    "rootNamespace": "",
+    "references": [
+        "GUID:1af39ade463c9cd22b6727012c85cdb9"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

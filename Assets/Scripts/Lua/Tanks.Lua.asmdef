@@ -1,0 +1,17 @@
+{
+    "name": "Tanks.Lua",
+    "references": [
+        "GUID:a3eac051004cc4c6b92cb1b018e08311",
+        "GUID:1af39ade463c9cd22b6727012c85cdb9",
+        "GUID:f51ebe6a0ceec4240a699833d6309b23"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
