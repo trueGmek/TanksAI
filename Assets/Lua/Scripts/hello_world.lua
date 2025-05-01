@@ -1,7 +1,7 @@
-print("HELLO WORLD")
-
-print(1 + 1)
-
 log("DUPA")
 
-return 1+1;
+wait(100)
+
+log("Dupa after waiting")
+
+return 1 + 1;

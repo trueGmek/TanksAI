@@ -1,4 +1,5 @@
 using Cysharp.Threading.Tasks;
+using Lua.Bindings;
 using Lua.Standard;
 using Lua.Unity;
 using UnityEngine;
@@ -13,13 +14,25 @@ namespace Lua
     [SerializeField] private LuaAsset script;
 
     private LuaState _state;
+    private ILuaBinder _genericBindings;
+
+    private void Awake()
+    {
+      SetUpLuaState();
+    }
+
+    private void SetUpLuaState()
+    {
+      Logger.Log("Setting up LUA state", Tags.LUA_MANAGER);
+      _state = LuaState.Create();
+      _state.OpenStandardLibraries();
+
+      _genericBindings = new GenericBindings();
+      _genericBindings.Bind(_state);
+    }
 
     private void Start()
     {
-      Logger.Log("Starting the manager", Tags.LUA_MANAGER);
-      _state = LuaState.Create();
-      _state.OpenStandardLibraries();
-      _state.AddProjectMethods();
       RunScript().Forget();
     }
 
