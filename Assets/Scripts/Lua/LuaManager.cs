@@ -13,7 +13,7 @@ namespace Lua
   {
     [SerializeField] private LuaAsset script;
 
-    private LuaState _state;
+    public LuaState State { get; private set; }
     private ILuaBinder _genericBindings;
 
     private void Awake()
@@ -24,26 +24,23 @@ namespace Lua
     private void SetUpLuaState()
     {
       Logger.Log("Setting up LUA state", Tags.LUA_MANAGER);
-      _state = LuaState.Create();
-      _state.OpenStandardLibraries();
+      State = LuaState.Create();
+      State.OpenStandardLibraries();
 
       _genericBindings = new GenericBindings();
-      _genericBindings.Bind(_state);
+
+      _genericBindings.Bind(State);
     }
 
-    private void Start()
-    {
-      RunScript().Forget();
-    }
 
     private async UniTask RunScript()
     {
-      Assert.IsNotNull(_state);
+      Assert.IsNotNull(State);
       Logger.Log($"Running a script! \n{script.Text}", Tags.LUA_MANAGER);
 
       try
       {
-        await _state.DoStringAsync(script.Text);
+        await State.DoStringAsync(script.Text);
       }
       catch (LuaParseException e)
       {

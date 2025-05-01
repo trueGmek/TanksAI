@@ -11,11 +11,11 @@ namespace Lua.Bindings
     private const string LOG = "log";
     private const string WAIT = "wait";
 
-    public void Bind(LuaState state)
+    public void Bind(in LuaState state)
     {
       Assert.IsNotNull(state, "State cannot be null");
-      state.Environment[LOG] = new LuaFunction(Log);
-      state.Environment[WAIT] = new LuaFunction(Wait);
+      state.Environment[LOG] = new LuaFunction(LOG, Log);
+      state.Environment[WAIT] = new LuaFunction(WAIT, Wait);
     }
 
 

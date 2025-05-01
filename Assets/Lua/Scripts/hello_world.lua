@@ -1,7 +1,10 @@
-log("DUPA")
-
+log("Hello from LUA")
 wait(100)
 
-log("Dupa after waiting")
 
-return 1 + 1;
+log("Agent is shooting")
+wait(100)
+
+agent.shoot();
+
+return 0;

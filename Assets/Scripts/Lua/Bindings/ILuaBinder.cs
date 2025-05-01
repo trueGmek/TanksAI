@@ -2,6 +2,6 @@ namespace Lua.Bindings
 {
   public interface ILuaBinder
   {
-    public void Bind(LuaState state);
+    public void Bind(in LuaState state);
   }
 }
