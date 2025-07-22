@@ -34,6 +34,7 @@ namespace AI.Core
       NavMeshAgent.updateRotation = true;
     }
 
+    
     public void Shoot(Vector3 direction)
     {
       Canon.Shoot(direction);

@@ -2,7 +2,7 @@ using System;
 
 namespace Lua
 {
-  [AttributeUsage(AttributeTargets.Method)]
+  [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class)]
   public class LuaExportAttribute : Attribute
   {
     public readonly string LuaName;

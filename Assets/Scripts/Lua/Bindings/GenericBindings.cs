@@ -8,8 +8,8 @@ namespace Lua.Bindings
 {
   public class GenericBindings : ILuaBinder
   {
-    private const string LOG = "log";
-    private const string WAIT = "wait";
+    private const string LOG = "Log";
+    private const string WAIT = "Wait";
 
     public void Bind(in LuaState state)
     {

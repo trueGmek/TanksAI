@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Text;
@@ -19,10 +21,16 @@ namespace Lua.Editor
     private const char COMMA = ',';
     private const char OPEN_BRACKET = '(';
     private const char CLOSE_BRACKET = ')';
+    private const char AT = '@';
     private const string COMMENT = "---";
 
-    private const BindingFlags BINDING_FLAGS =
-      BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Instance;
+    private const BindingFlags FUNCTIONS_BINDING_FLAGS =
+      BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static;
+
+    private const BindingFlags METHODS_BINDING_FLAGS =
+      BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance;
+
+    private static Stopwatch _stopwatch = new Stopwatch();
 
     static LuaStubsGenerator()
     {
@@ -34,16 +42,97 @@ namespace Lua.Editor
     private static void GenerateLuaStubs(object obj)
     {
       Logger.Log("Generating lua stubs", Tags.LUA_CODE_GEN);
+      _stopwatch.Start();
+
       StringBuilder stringBuilder = new();
 
       stringBuilder.Append(COMMENT).Append(NEW_LINE);
       stringBuilder.Append(COMMENT).Append(SPACE).Append("This file is auto-generated, don't change it!");
       stringBuilder.Append(NEW_LINE).Append(COMMENT).Append(NEW_LINE).Append(NEW_LINE);
 
-      FetchDataFromSourceCode(stringBuilder);
+      FetchData(stringBuilder);
 
       string path = SaveDataToFile(stringBuilder);
-      Logger.Log($"Lua stubs were written to: {path}", Tags.LUA_CODE_GEN);
+
+      _stopwatch.Stop();
+      Logger.Log(
+        $"Generation finished! It took: {_stopwatch.Elapsed.TotalSeconds} seconds. Lua stubs were written to: {path}",
+        Tags.LUA_CODE_GEN);
+    }
+
+    private static void FetchData(StringBuilder stringBuilder)
+    {
+      Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies();
+
+      foreach (Assembly assembly in assemblies)
+      {
+        if (assembly.FullName.StartsWith("Unity") || assembly.FullName.StartsWith("System"))
+          continue;
+
+        foreach (Type type in assembly.GetTypes())
+        {
+          GenerateStubsForClasses(stringBuilder, type);
+          GenerateStubsForMethods(stringBuilder, type);
+          GenerateStubsForFunctions(stringBuilder, type);
+        }
+      }
+    }
+
+    private static void GenerateStubsForClasses(StringBuilder stringBuilder, Type type)
+    {
+      LuaExportAttribute luaExportAttribute = GetLuaAttributeFromType(type);
+      if (luaExportAttribute == null)
+        return;
+
+      stringBuilder.Append(COMMENT).Append(AT).Append("class").Append(SPACE).Append(luaExportAttribute.LuaName)
+        .Append(NEW_LINE).Append(NEW_LINE);
+    }
+
+    private static void GenerateStubsForMethods(StringBuilder stringBuilder, Type type)
+    {
+      foreach (MethodInfo method in type.GetMethods(METHODS_BINDING_FLAGS))
+      {
+        object[] attributes = method.GetCustomAttributes(typeof(LuaExportAttribute), false);
+        if (attributes.Length <= 0)
+        {
+          continue;
+        }
+
+        foreach (object attribute in attributes)
+        {
+          if (attribute is not LuaExportAttribute luaExportAttribute)
+            return;
+
+          stringBuilder.Append(COMMENT).Append(SPACE).Append(luaExportAttribute.Description).Append(NEW_LINE);
+          AppendArgumentsDescriptionComment(method, stringBuilder);
+          AppendMethodDeclaration(method, stringBuilder, luaExportAttribute);
+          stringBuilder.Append(NEW_LINE);
+        }
+      }
+    }
+
+    private static void GenerateStubsForFunctions(StringBuilder stringBuilder, Type type)
+    {
+      foreach (MethodInfo method in type.GetMethods(FUNCTIONS_BINDING_FLAGS))
+      {
+        object[] attributes = method.GetCustomAttributes(typeof(LuaExportAttribute), false);
+        if (attributes.Length <= 0)
+        {
+          continue;
+        }
+
+        foreach (object attribute in attributes)
+        {
+          if (attribute is not LuaExportAttribute luaExportAttribute)
+            return;
+
+          stringBuilder.Append(COMMENT).Append(SPACE).Append(luaExportAttribute.Description).Append(NEW_LINE);
+
+          AppendArgumentsDescriptionComment(method, stringBuilder);
+          AppendFunctionDeclaration(method, stringBuilder, luaExportAttribute);
+          stringBuilder.Append(NEW_LINE);
+        }
+      }
     }
 
     private static string SaveDataToFile(StringBuilder stringBuilder)
@@ -61,50 +150,11 @@ namespace Lua.Editor
       return path;
     }
 
-    private static void FetchDataFromSourceCode(StringBuilder stringBuilder)
-    {
-      Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies();
-
-      foreach (Assembly assembly in assemblies)
-      {
-        if (assembly.FullName.StartsWith("Unity") || assembly.FullName.StartsWith("System"))
-          continue;
-
-        foreach (Type type in assembly.GetTypes())
-        {
-          foreach (MethodInfo method in type.GetMethods(BINDING_FLAGS))
-          {
-            var attributes = method.GetCustomAttributes(typeof(LuaExportAttribute), false);
-            if (attributes.Length <= 0)
-            {
-              continue;
-            }
-
-            foreach (object attribute in attributes)
-            {
-              EmmitStub(attribute, method, stringBuilder);
-              stringBuilder.Append(NEW_LINE);
-            }
-          }
-        }
-      }
-    }
-
-    private static void EmmitStub(object attribute, MethodInfo method, StringBuilder sb)
-    {
-      if (attribute is not LuaExportAttribute luaExportAttribute)
-        return;
-
-      sb.Append(COMMENT).Append(SPACE).Append(luaExportAttribute.Description).Append(NEW_LINE);
-      AppendArgumentsDescriptionComment(method, sb);
-      AppendMethodDeclaration(method, sb, luaExportAttribute);
-    }
-
     /// <summary>
     /// Example of what the method generates: 
     /// function log(message) end
     /// </summary>
-    private static void AppendMethodDeclaration(MethodInfo method, StringBuilder sb,
+    private static void AppendFunctionDeclaration(MethodInfo method, StringBuilder sb,
       LuaExportAttribute luaExportAttribute)
     {
       sb.Append("function").Append(SPACE).Append(luaExportAttribute.LuaName);
@@ -129,15 +179,75 @@ namespace Lua.Editor
     }
 
     /// <summary>
+    /// Example of what the method generates: 
+    /// function log(message) end
+    /// </summary>
+    private static void AppendMethodDeclaration(MethodInfo method, StringBuilder sb,
+      LuaExportAttribute luaExportAttribute)
+    {
+      LuaExportAttribute classLuaExportAttribute = GetLuaAttributeFromType(method.DeclaringType);
+
+      if (classLuaExportAttribute == null)
+      {
+        Logger.LogError($"Could not find a parent lua attribute for method: {method.Name}", Tags.LUA_CODE_GEN);
+        return;
+      }
+
+      sb.Append("function").Append(SPACE).Append(classLuaExportAttribute.LuaName).Append(':')
+        .Append(luaExportAttribute.LuaName);
+      sb.Append(OPEN_BRACKET);
+
+      ParameterInfo[] parameter = method.GetParameters();
+
+      for (int i = 0; i < parameter.Length; i++)
+      {
+        ParameterInfo parameterInfo = parameter[i];
+        if (i > 1)
+        {
+          sb.Append(COMMA).Append(SPACE);
+        }
+
+        sb.Append(parameterInfo.Name);
+      }
+
+      sb.Append(CLOSE_BRACKET);
+      sb.Append(SPACE).Append("end").Append(NEW_LINE);
+    }
+
+    private static LuaExportAttribute GetLuaAttributeFromType(Type type)
+    {
+      if (type == null)
+        return null;
+
+      IEnumerable<Attribute> declaringTypeAttributes = type.GetCustomAttributes(typeof(LuaExportAttribute));
+      LuaExportAttribute classLuaExportAttribute = null;
+
+      foreach (Attribute attribute in declaringTypeAttributes)
+      {
+        if (attribute is not LuaExportAttribute classLuaAttribute)
+        {
+          continue;
+        }
+
+        classLuaExportAttribute = classLuaAttribute;
+      }
+
+      return classLuaExportAttribute;
+    }
+
+    /// <summary>
     /// This is an example of a message that the method generates
     ///  ---@param message string
     /// </summary>
     private static void AppendArgumentsDescriptionComment(MethodInfo method, StringBuilder sb)
     {
-      sb.Append(COMMENT).Append(SPACE).Append("@param").Append(SPACE);
-      ParameterInfo[] parameter = method.GetParameters();
+      ParameterInfo[] parameters = method.GetParameters();
+      if (parameters.Length == 0)
+        return;
 
-      foreach (ParameterInfo parameterInfo in parameter)
+      sb.Append(COMMENT).Append(SPACE).Append("@param").Append(SPACE);
+
+      foreach (ParameterInfo parameterInfo in parameters)
       {
         sb.Append(parameterInfo.Name).Append(SPACE);
         sb.Append(parameterInfo.ParameterType.ToLuaType()).Append(SPACE);
@@ -168,7 +278,7 @@ namespace Lua.Editor
         return "number";
       }
 
-      throw new Exception($"Unknown type: {type.ToString()}");
+      throw new Exception($"Unknown type: {type}");
     }
   }
 }

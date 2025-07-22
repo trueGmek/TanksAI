@@ -154,6 +154,7 @@ MonoBehaviour:
   secondAgentPrefab: {fileID: 8085201418243086244, guid: ef26e4fd3fbc14b6f9888a524616d1b6, type: 3}
   spawnPointOne: {fileID: 5362902269536320519}
   spawnPointTwo: {fileID: 5362902269536320518}
+  luaManager: {fileID: 167669314}
 --- !u!114 &127641144
 MonoBehaviour:
   m_ObjectHideFlags: 0
