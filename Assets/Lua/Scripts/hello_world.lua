@@ -1,10 +1,5 @@
-log("Hello from LUA")
-wait(100)
+Agent:move()
+Wait(1000)
+Agent:shoot();
 
-
-log("Agent is shooting")
-wait(100)
-
-agent.shoot();
-
-return 0;
+return 0

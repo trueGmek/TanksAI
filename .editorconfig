@@ -1,0 +1,14 @@
+# top-most EditorConfig file
+root = true
+
+# C# files
+[*.cs]
+# Indentation and spacing
+indent_style = space
+indent_size = 2
+insert_final_newline = true
+
+# Code style rules
+csharp_new_line_before_open_brace = all
+csharp_prefer_braces_for_statement = true
+csharp_preserve_single_line_blocks = true

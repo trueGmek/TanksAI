@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Utils.Editor
 {
   [CustomEditor(typeof(MonoBehaviour), true)]
-  public class ButtonEditor : UnityEditor.Editor
+  public class CustomMonoBehaviourEditor : UnityEditor.Editor
   {
     public override void OnInspectorGUI()
     {
