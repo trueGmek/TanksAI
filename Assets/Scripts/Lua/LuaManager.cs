@@ -33,12 +33,15 @@ namespace Lua
       _genericBindings.Bind(State);
     }
 
-
     private async UniTask RunScript()
     {
-      Assert.IsNotNull(State);
+      string script = await File.ReadAllTextAsync(filepath);
+      await Run(script);
+    }
 
-      string script = File.ReadAllText(filepath);
+    public async UniTask Run(string script)
+    {
+      Assert.IsNotNull(State);
 
       Logger.Log($"Running a script! \n```\n{script}\n```", Tags.LUA_MANAGER);
 
@@ -59,6 +62,7 @@ namespace Lua
 
       Logger.Log("Script finished!", Tags.LUA_MANAGER);
     }
+
 
     [Button("Run the script")]
     private void RunTheScript()
