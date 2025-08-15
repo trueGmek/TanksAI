@@ -16,9 +16,7 @@ namespace AI.Spawner
     [SerializeField] private Transform spawnPointOne;
     [SerializeField] private Transform spawnPointTwo;
 
-    //TODO: THIS IS ONLY TEMPORARY
-    [SerializeField] private LuaManager luaManager;
-
+    [SerializeField] private StandaloneLuaRunner luaRunner;
 
     public override void Spawn()
     {
@@ -29,10 +27,9 @@ namespace AI.Spawner
 
       AgentManualTester.Bind(firstInstance, secondInstance);
 
-      
-      Assert.IsNotNull(luaManager, "luaManager != null");
+      Assert.IsNotNull(luaRunner, "luaRunner != null");
       var aiBinder = new AiBindings(secondInstance);
-      aiBinder.Bind(luaManager.State);
+      aiBinder.Bind(luaRunner.Runner.State);
     }
   }
 }

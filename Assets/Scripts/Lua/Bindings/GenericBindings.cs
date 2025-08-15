@@ -3,7 +3,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 using UnityEngine.Assertions;
-using Utils;
 
 namespace Lua.Bindings
 {

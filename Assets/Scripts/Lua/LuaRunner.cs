@@ -2,38 +2,29 @@ using System.IO;
 using Cysharp.Threading.Tasks;
 using Lua.Bindings;
 using Lua.Standard;
-using Lua.Unity;
-using UnityEditor;
-using UnityEngine;
 using UnityEngine.Assertions;
 using Utils;
 using Logger = Utils.Logger;
 
 namespace Lua
 {
-  public class LuaManager : MonoBehaviour
+  public class LuaRunner
   {
-    [ReadOnly, SerializeField] private string filepath;
     public LuaState State { get; private set; }
+
     private ILuaBinder _genericBindings;
 
-    private void Awake()
-    {
-      SetUpLuaState();
-    }
-
-    private void SetUpLuaState()
+    public LuaRunner()
     {
       Logger.Log("Setting up LUA state", Tags.LUA_MANAGER);
       State = LuaState.Create();
       State.OpenStandardLibraries();
 
       _genericBindings = new GenericBindings();
-
       _genericBindings.Bind(State);
     }
 
-    private async UniTask RunScript()
+    public async UniTask RunPath(string filepath)
     {
       string script = await File.ReadAllTextAsync(filepath);
       await Run(script);
@@ -61,20 +52,6 @@ namespace Lua
       }
 
       Logger.Log("Script finished!", Tags.LUA_MANAGER);
-    }
-
-
-    [Button("Run the script")]
-    private void RunTheScript()
-    {
-      RunScript().Forget();
-    }
-
-    [Button("Select file")]
-    private void SelectFile()
-    {
-      filepath = EditorUtility.OpenFilePanelWithFilters("Select LUA script", "",
-        new string[] { "Lua Files", "lua", "All files", "*" });
     }
   }
 }

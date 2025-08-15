@@ -12,8 +12,7 @@ public class TextEditorController : MonoBehaviour
   [SerializeField] private Button loadButton;
   [SerializeField] private Button saveButton;
   [SerializeField] private TMP_InputField inputField;
-
-  [SerializeField] private LuaManager luaManager;
+  [SerializeField] private StandaloneLuaRunner standaloneLuaRunner;
 
   private string filepath;
   private string buffer;
@@ -32,7 +31,7 @@ public class TextEditorController : MonoBehaviour
 
   private void RunScript()
   {
-    _ = luaManager.Run(inputField.text);
+    _ = standaloneLuaRunner.Runner.Run(inputField.text);
   }
 
   public void OpenFile()
