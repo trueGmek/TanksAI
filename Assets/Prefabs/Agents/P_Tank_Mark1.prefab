@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 8085201418243086244}
   - component: {fileID: 2251879246278990466}
   - component: {fileID: 6868872607029655919}
+  - component: {fileID: 3725136033134290908}
   m_Layer: 0
   m_Name: P_Tank_Mark1
   m_TagString: Untagged
@@ -107,6 +108,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 10
+--- !u!114 &3725136033134290908
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4407134377921047596}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24d8d3f3ca630fd1ab1f06d187c93d17, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  path: /home/gmek/Dev/Unity/TanksAI/Assets/Lua/Scripts/looped_agent.lua
+  agent: {fileID: 8085201418243086244}
 --- !u!1 &4799090540431575713
 GameObject:
   m_ObjectHideFlags: 0
