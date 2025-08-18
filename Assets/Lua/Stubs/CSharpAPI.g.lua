@@ -4,14 +4,21 @@
 
 ---@class Agent
 
---- Shoots the canon in the forward direction of the canon
-function Agent:shoot() end
+--- Shots the canon at the given position
+--- @param worldPosition Vector3 
+function Agent:shoot(worldPosition) end
 
 --- Rotates the cannon on the tank to point to a specified direction
 function Agent:rotate() end
 
 --- Moves the agent to a world position
-function Agent:move() end
+--- @param direction Vector3 
+function Agent:move(direction) end
+
+---@class Vector3
+---@field X number 
+---@field Y number 
+---@field Z number 
 
 --- Delays the execution for number of milliseconds
 --- @param milliseconds number 

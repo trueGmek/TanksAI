@@ -4,8 +4,10 @@ using System.Threading.Tasks;
 using AI.Core;
 using Lua;
 using Lua.Bindings;
+using UnityEngine;
 using UnityEngine.Assertions;
 using Utils;
+using Logger = Utils.Logger;
 
 namespace AI.Lua
 {
@@ -34,7 +36,6 @@ namespace AI.Lua
     public void Bind(in LuaState state)
     {
       Assert.IsNotNull(state);
-      Logger.Log($"Binding agent: {_agent.name} to lua state", Tags.AGENT);
 
       LuaTable agent = new(0, _functions.Length);
       foreach (LuaFunction func in _functions)
@@ -45,18 +46,20 @@ namespace AI.Lua
       state.Environment[AGENT_CLASS_NAME] = agent;
     }
 
-    private ValueTask<int> ShootBinding(LuaFunctionExecutionContext arg1, Memory<LuaValue> arg2,
-      CancellationToken arg3)
+    private ValueTask<int> ShootBinding(LuaFunctionExecutionContext context, Memory<LuaValue> memory, CancellationToken cToken)
     {
-      Shoot();
+      LuaTable args = context.GetArgument<LuaTable>(1);
+
+      Shoot(args.GetVector3());
+
       return new ValueTask<int>(0);
     }
 
-    [LuaExport(SHOOT_METHOD_NAME, "Shoots the canon in the forward direction of the canon")]
-    private void Shoot()
+    [LuaExport(SHOOT_METHOD_NAME, "Shots the canon at the given position")]
+    private void Shoot(Vector3 worldPosition)
     {
       Logger.Log($"Executing shoot through lua on again: {_agent.name}", Tags.AGENT);
-      _agent.Shoot(_agent.transform.forward);
+      _agent.Shoot((worldPosition - _agent.transform.position).normalized);
     }
 
     private ValueTask<int> RotateBinding(LuaFunctionExecutionContext arg1, Memory<LuaValue> arg2,
@@ -74,17 +77,21 @@ namespace AI.Lua
     }
 
 
-    private ValueTask<int> MoveBinding(LuaFunctionExecutionContext arg1, Memory<LuaValue> arg2, CancellationToken arg3)
+    private ValueTask<int> MoveBinding(LuaFunctionExecutionContext context, Memory<LuaValue> memory,
+      CancellationToken ctoken)
     {
-      Move();
+      LuaTable args = context.GetArgument<LuaTable>(1);
+
+      Move(args.GetVector3());
+
       return new ValueTask<int>(0);
     }
 
     [LuaExport(MOVE_METHOD_NAME, "Moves the agent to a world position")]
-    private void Move()
+    private void Move(Vector3 direction)
     {
       Logger.Log($"Executing move through lua on again: {_agent.name}", Tags.AGENT);
-      _agent.Move(_agent.transform.position + _agent.transform.forward);
+      _agent.Move(_agent.transform.position + _agent.transform.TransformDirection(direction));
     }
   }
 }

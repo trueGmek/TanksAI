@@ -1,14 +1,25 @@
+using System;
 using UnityEditor;
 using UnityEngine;
 using System.Net;
 using System.Text;
 using System.Threading;
+using System.Collections.Generic;
+using System.Globalization;
 
 [InitializeOnLoad]
 public static class EditorTimeServer
 {
-  private static HttpListener listener;
-  private static Thread listenerThread;
+  private const string REGENERATE_ENDPOINT = "/regenerate-solution";
+  private const string GET_LOGS_ENDPOINT = "/get-logs";
+  private const string PORT_NUMBER = "5005";
+  private static readonly string UriPrefix = $"http://localhost:{PORT_NUMBER}/";
+
+  private static HttpListener _listener;
+  private static Thread _listenerThread;
+
+  private static readonly StringBuilder StringBuilder = new StringBuilder();
+  private static readonly Queue<Action> QueuedActions = new Queue<Action>();
 
   static EditorTimeServer()
   {
@@ -17,43 +28,49 @@ public static class EditorTimeServer
 
   private static void StartServer()
   {
-    listener = new HttpListener();
-    listener.Prefixes.Add("http://localhost:5005/");
-    listenerThread = new Thread(ListenLoop);
-    listenerThread.IsBackground = true;
-    listenerThread.Start();
+    _listener = new HttpListener();
+
+    _listener.Prefixes.Add(UriPrefix);
+    _listenerThread = new Thread(ListenLoop);
+    _listenerThread.IsBackground = true;
+    _listenerThread.Start();
     Debug.Log("BackgroundRegenerateServer running at http://localhost:5005/");
 
-    // Ensure editor callbacks are processed even when unfocused
     EditorApplication.update += ProcessQueuedActions;
+
+    Application.logMessageReceivedThreaded += HandleLog;
   }
 
-  private static readonly System.Collections.Generic.Queue<System.Action> queuedActions =
-      new System.Collections.Generic.Queue<System.Action>();
 
   private static void ListenLoop()
   {
-    listener.Start();
+    _listener.Start();
     while (true)
     {
       try
       {
-        var context = listener.GetContext();
+        var context = _listener.GetContext();
         var requestPath = context.Request.Url.AbsolutePath;
 
-        if (requestPath == "/regenerate-solution")
+        if (requestPath == REGENERATE_ENDPOINT)
         {
-          lock (queuedActions)
+          lock (QueuedActions)
           {
-            queuedActions.Enqueue(() =>
+            QueuedActions.Enqueue(() =>
             {
+              StringBuilder.Clear();
               AssetDatabase.Refresh();
               Unity.CodeEditor.CodeEditor.CurrentEditor.SyncAll();
+
               Debug.Log("✅ Project files regenerated via HTTP request (background-safe)");
             });
           }
 
           Respond(context, 200, "Regeneration triggered");
+        }
+        else if (requestPath == GET_LOGS_ENDPOINT)
+        {
+          Respond(context, 200, StringBuilder.ToString());
         }
         else
         {
@@ -70,13 +87,20 @@ public static class EditorTimeServer
 
   private static void ProcessQueuedActions()
   {
-    lock (queuedActions)
+    lock (QueuedActions)
     {
-      while (queuedActions.Count > 0)
+      while (QueuedActions.Count > 0)
       {
-        queuedActions.Dequeue()?.Invoke();
+        QueuedActions.Dequeue()?.Invoke();
       }
     }
+  }
+
+  private static void HandleLog(string logString, string stackTrace, LogType type)
+  {
+    StringBuilder.Append("[").Append(type).Append("]");
+    StringBuilder.Append("[").Append(DateTime.Now.ToString(CultureInfo.InvariantCulture)).Append("]");
+    StringBuilder.Append(": ").Append(logString).Append('\n');
   }
 
   private static void Respond(HttpListenerContext context, int status, string message)

@@ -24,13 +24,14 @@ namespace Lua
       _genericBindings.Bind(State);
     }
 
-    public async UniTask RunPath(string filepath)
+    public async UniTask<LuaValue[]> RunPath(string filepath)
     {
       string script = await File.ReadAllTextAsync(filepath);
-      await Run(script);
+      return await Run(script);
     }
 
-    public async UniTask Run(string script)
+
+    public async UniTask<LuaValue[]> Run(string script)
     {
       Assert.IsNotNull(State);
 
@@ -38,20 +39,20 @@ namespace Lua
 
       try
       {
-        await State.DoStringAsync(script);
+        var results = await State.DoStringAsync(script);
+        Logger.Log("Script finished!", Tags.LUA_MANAGER);
+        return results;
       }
       catch (LuaParseException e)
       {
         Logger.LogError($"A parse exception was thrown: {e}", Tags.LUA_MANAGER);
-        return;
+        return null;
       }
       catch (LuaRuntimeException e)
       {
         Logger.LogError($"Runtime error: {e}", Tags.LUA_MANAGER);
-        return;
+        return null;
       }
-
-      Logger.Log("Script finished!", Tags.LUA_MANAGER);
     }
   }
 }

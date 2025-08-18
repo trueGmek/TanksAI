@@ -30,6 +30,9 @@ namespace Lua.Editor
     private const BindingFlags METHODS_BINDING_FLAGS =
       BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance;
 
+    private const BindingFlags PROPERTIES_BINDING_FLAGS =
+      BindingFlags.Public | BindingFlags.Instance;
+
     private static Stopwatch _stopwatch = new Stopwatch();
 
     static LuaStubsGenerator()
@@ -81,11 +84,34 @@ namespace Lua.Editor
     private static void GenerateStubsForClasses(StringBuilder stringBuilder, Type type)
     {
       LuaExportAttribute luaExportAttribute = GetLuaAttributeFromType(type);
+
       if (luaExportAttribute == null)
         return;
 
       stringBuilder.Append(COMMENT).Append(AT).Append("class").Append(SPACE).Append(luaExportAttribute.LuaName)
-        .Append(NEW_LINE).Append(NEW_LINE);
+        .Append(NEW_LINE);
+      GenerateStubsForProperties(stringBuilder, type);
+      stringBuilder.Append(NEW_LINE);
+    }
+
+    private static void GenerateStubsForProperties(StringBuilder stringBuilder, Type type)
+    {
+      foreach (PropertyInfo property in type.GetProperties(PROPERTIES_BINDING_FLAGS))
+      {
+        object[] attributes = property.GetCustomAttributes(typeof(LuaExportAttribute), false);
+        if (attributes.Length <= 0)
+        {
+          continue;
+        }
+
+        foreach (object attribute in attributes)
+        {
+          if (attribute is not LuaExportAttribute luaExportAttribute)
+            return;
+          AppendPropertyInfo(property, stringBuilder);
+          stringBuilder.Append(NEW_LINE);
+        }
+      }
     }
 
     private static void GenerateStubsForMethods(StringBuilder stringBuilder, Type type)
@@ -237,6 +263,17 @@ namespace Lua.Editor
 
     /// <summary>
     /// This is an example of a message that the method generates
+    ///  ---@field message string
+    /// </summary>
+    private static void AppendPropertyInfo(PropertyInfo property, StringBuilder sb)
+    {
+      sb.Append(COMMENT).Append("@field").Append(SPACE);
+      sb.Append(property.Name).Append(SPACE);
+      sb.Append(property.PropertyType.ToLuaType()).Append(SPACE);
+    }
+
+    /// <summary>
+    /// This is an example of a message that the method generates
     ///  ---@param message string
     /// </summary>
     private static void AppendArgumentsDescriptionComment(MethodInfo method, StringBuilder sb)
@@ -276,6 +313,11 @@ namespace Lua.Editor
       if (type == typeof(int) || type == typeof(float) || type == typeof(double) || type == typeof(decimal))
       {
         return "number";
+      }
+
+      if (type == typeof(UnityEngine.Vector3))
+      {
+        return "Vector3";
       }
 
       throw new Exception($"Unknown type: {type}");

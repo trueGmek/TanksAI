@@ -2,12 +2,12 @@
     "name": "Tanks.AI",
     "rootNamespace": "",
     "references": [
+        "GUID:f51ebe6a0ceec4240a699833d6309b23",
         "GUID:1af39ade463c9cd22b6727012c85cdb9",
         "GUID:e91fa33d0fed4ee883781f05fb6c4dae",
         "GUID:d93b947c85fb410bb880b3d36125201f",
         "GUID:75469ad4d38634e559750d17036d5f7c",
-        "GUID:70f72b440ce321c8997b96db51d64cd4",
-        "GUID:f51ebe6a0ceec4240a699833d6309b23"
+        "GUID:70f72b440ce321c8997b96db51d64cd4"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
