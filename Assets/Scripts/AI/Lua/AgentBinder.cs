@@ -12,7 +12,7 @@ using Logger = Utils.Logger;
 namespace AI.Lua
 {
   [LuaExport(AGENT_CLASS_NAME)]
-  public class AiBindings : ILuaBinder
+  public class AgentBinder : ILuaBinder
   {
     public const string AGENT_CLASS_NAME = "Agent";
     public const string MOVE_METHOD_NAME = "move";
@@ -22,7 +22,7 @@ namespace AI.Lua
     private readonly Agent _agent;
     private readonly LuaFunction[] _functions;
 
-    public AiBindings(Agent agent)
+    public AgentBinder(Agent agent)
     {
       _agent = agent;
       _functions = new LuaFunction[]

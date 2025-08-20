@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 8085201418243086244}
   - component: {fileID: 2251879246278990466}
   - component: {fileID: 6868872607029655919}
+  - component: {fileID: 5905670923701448997}
   m_Layer: 0
   m_Name: P_Tank_Mark2
   m_TagString: Untagged
@@ -107,6 +108,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 10
+--- !u!114 &5905670923701448997
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4407134377921047596}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24d8d3f3ca630fd1ab1f06d187c93d17, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  path: /home/gmek/Dev/Unity/TanksAI/Assets/Lua/Scripts/agent_controller.lua
+  agent: {fileID: 8085201418243086244}
 --- !u!1 &4799090540431575713
 GameObject:
   m_ObjectHideFlags: 0
@@ -169,7 +184,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9c4a68de809737f51940c464274354b9, type: 2}
+  - {fileID: 2100000, guid: 098918ed0114ab49e97b27b94f37168d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -546,13 +561,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 6804618911845216337}
     m_Modifications:
+    - target: {fileID: 261591493889595132, guid: 08692e739db330aecb74b0bbf7611a36, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: bf9d5443b6b1ce03fbb7368a6798b404, type: 2}
     - target: {fileID: 1093856168488254589, guid: 08692e739db330aecb74b0bbf7611a36, type: 3}
       propertyPath: m_Name
       value: P_MainCanon_Mark2
       objectReference: {fileID: 0}
     - target: {fileID: 1482220349013518987, guid: 08692e739db330aecb74b0bbf7611a36, type: 3}
       propertyPath: m_VersionIndex
-      value: 7162
+      value: 7168
       objectReference: {fileID: 0}
     - target: {fileID: 1831153003968569913, guid: 08692e739db330aecb74b0bbf7611a36, type: 3}
       propertyPath: m_LocalPosition.x
@@ -596,24 +615,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3277615724322561247, guid: 08692e739db330aecb74b0bbf7611a36, type: 3}
       propertyPath: m_VersionIndex
-      value: 2632
+      value: 2638
       objectReference: {fileID: 0}
-    - target: {fileID: 3954749873677945708, guid: 08692e739db330aecb74b0bbf7611a36, type: 3}
-      propertyPath: m_Mesh
+    - target: {fileID: 3916808023271559671, guid: 08692e739db330aecb74b0bbf7611a36, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 5923788740405072422, guid: 08692e739db330aecb74b0bbf7611a36, type: 3}
-      propertyPath: m_Mesh
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 7517902761654130373, guid: 08692e739db330aecb74b0bbf7611a36, type: 3}
-      propertyPath: m_Mesh
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 8314721851452891710, guid: 08692e739db330aecb74b0bbf7611a36, type: 3}
-      propertyPath: m_Mesh
-      value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 2100000, guid: bf9d5443b6b1ce03fbb7368a6798b404, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

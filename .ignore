@@ -1,2 +1,7 @@
 #Unity's meta files
 *.meta
+*.asset
+
+Assets/*
+!/Assets/Scripts/
+!/Assets/Lua/

@@ -35,6 +35,8 @@ namespace Lua.Editor
 
     private static Stopwatch _stopwatch = new Stopwatch();
 
+    private static readonly List<Type> IgnoredTypes = new List<Type> { typeof(Cysharp.Threading.Tasks.UniTask) };
+
     static LuaStubsGenerator()
     {
       CompilationPipeline.compilationFinished -= GenerateLuaStubs;
@@ -88,7 +90,7 @@ namespace Lua.Editor
       if (luaExportAttribute == null)
         return;
 
-      stringBuilder.Append(COMMENT).Append(AT).Append("class").Append(SPACE).Append(luaExportAttribute.LuaName)
+      stringBuilder.Append(COMMENT).Append(SPACE).Append(AT).Append("class").Append(SPACE).Append(luaExportAttribute.LuaName)
         .Append(NEW_LINE);
       GenerateStubsForProperties(stringBuilder, type);
       stringBuilder.Append(NEW_LINE);
@@ -131,11 +133,13 @@ namespace Lua.Editor
 
           stringBuilder.Append(COMMENT).Append(SPACE).Append(luaExportAttribute.Description).Append(NEW_LINE);
           AppendArgumentsDescriptionComment(method, stringBuilder);
+          AppendReturnTypeDescription(method, stringBuilder);
           AppendMethodDeclaration(method, stringBuilder, luaExportAttribute);
           stringBuilder.Append(NEW_LINE);
         }
       }
     }
+
 
     private static void GenerateStubsForFunctions(StringBuilder stringBuilder, Type type)
     {
@@ -155,6 +159,7 @@ namespace Lua.Editor
           stringBuilder.Append(COMMENT).Append(SPACE).Append(luaExportAttribute.Description).Append(NEW_LINE);
 
           AppendArgumentsDescriptionComment(method, stringBuilder);
+          AppendReturnTypeDescription(method, stringBuilder);
           AppendFunctionDeclaration(method, stringBuilder, luaExportAttribute);
           stringBuilder.Append(NEW_LINE);
         }
@@ -263,18 +268,18 @@ namespace Lua.Editor
 
     /// <summary>
     /// This is an example of a message that the method generates
-    ///  ---@field message string
+    /// --- @field message string
     /// </summary>
     private static void AppendPropertyInfo(PropertyInfo property, StringBuilder sb)
     {
-      sb.Append(COMMENT).Append("@field").Append(SPACE);
+      sb.Append(COMMENT).Append(SPACE).Append("@field").Append(SPACE);
       sb.Append(property.Name).Append(SPACE);
       sb.Append(property.PropertyType.ToLuaType()).Append(SPACE);
     }
 
     /// <summary>
     /// This is an example of a message that the method generates
-    ///  ---@param message string
+    /// --- @param message string
     /// </summary>
     private static void AppendArgumentsDescriptionComment(MethodInfo method, StringBuilder sb)
     {
@@ -290,6 +295,23 @@ namespace Lua.Editor
         sb.Append(parameterInfo.ParameterType.ToLuaType()).Append(SPACE);
       }
 
+      sb.Append(NEW_LINE);
+    }
+
+    /// <summary>
+    /// This is an example of a message that the method generates
+    /// --- @return Vector3
+    /// </summary>
+    private static void AppendReturnTypeDescription(MethodInfo method, StringBuilder sb)
+    {
+      var returnType = method.ReturnType;
+      if (returnType == typeof(void) || IgnoredTypes.Contains(returnType))
+        return;
+
+      Logger.Log($"Found type: {returnType.ToString()}", Tags.LUA_CODE_GEN);
+
+      sb.Append(COMMENT).Append(SPACE).Append("@return").Append(SPACE);
+      sb.Append(returnType.ToLuaType()).Append(SPACE);
       sb.Append(NEW_LINE);
     }
 
@@ -320,7 +342,7 @@ namespace Lua.Editor
         return "Vector3";
       }
 
-      throw new Exception($"Unknown type: {type}");
+      return type.ToString();
     }
   }
 }

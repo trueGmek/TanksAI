@@ -12,31 +12,45 @@ namespace AI.Lua
     [SerializeField, ReadOnly] private string path;
     [SerializeField] private Agent agent;
 
-    private LuaRunner runner;
+    public LuaRunner Runner { get; private set; }
     private LuaValue[] result;
 
-    private void Awake()
-    {
-      runner = new LuaRunner();
-      var aiBinder = new AiBindings(agent);
-      aiBinder.Bind(runner.State);
+    private Agent opponent;
 
+    public void Initialize()
+    {
+      Runner = new LuaRunner();
+
+      var aiBinder = new AgentBinder(agent);
+      aiBinder.Bind(Runner.State);
+
+      var opponentBinder = new OpponentBinder(opponent);
+      opponentBinder.Bind(Runner.State);
+    }
+
+    public void StartAgent()
+    {
       _ = StartAgentExecution();
+    }
+
+    internal void SetOpponent(Agent opponent)
+    {
+      this.opponent = opponent;
     }
 
     private async UniTask StartAgentExecution()
     {
-      result = await runner.RunPath(path);
+      result = await Runner.RunPath(path);
 
       var functionObject = result[0].Read<LuaTable>();
       var start = functionObject["Start"].Read<LuaFunction>();
       var update = functionObject["Update"].Read<LuaFunction>();
 
-      await start.InvokeAsync(runner.State, new LuaValue[] { Time.deltaTime });
+      await start.InvokeAsync(Runner.State, new LuaValue[] { Time.deltaTime });
       while (enabled)
       {
         await UniTask.WaitForFixedUpdate();
-        await update.InvokeAsync(runner.State, new LuaValue[] { Time.deltaTime });
+        await update.InvokeAsync(Runner.State, new LuaValue[] { Time.deltaTime });
       }
     }
 

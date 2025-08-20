@@ -1,5 +1,13 @@
-local update = function()
+local vector = require("modules/vector3")
+local M = {};
 
+M.Start = function()
 end
 
-return update;
+M.Update = function()
+  local position = Opponent:GetPosition()
+  Agent:shoot(position)
+  Wait(1000)
+end
+
+return M

@@ -2,7 +2,7 @@
 --- This file is auto-generated, don't change it!
 ---
 
----@class Agent
+--- @class Agent
 
 --- Shots the canon at the given position
 --- @param worldPosition Vector3 
@@ -15,10 +15,16 @@ function Agent:rotate() end
 --- @param direction Vector3 
 function Agent:move(direction) end
 
----@class Vector3
----@field X number 
----@field Y number 
----@field Z number 
+--- @class Opponent
+
+--- Returns opponent position
+--- @return Vector3 
+function Opponent:GetPosition() end
+
+--- @class Vector3
+--- @field X number 
+--- @field Y number 
+--- @field Z number 
 
 --- Delays the execution for number of milliseconds
 --- @param milliseconds number 

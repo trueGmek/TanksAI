@@ -1,6 +1,7 @@
 {
     "diagnostics.globals": [
         "log",
-        "Agent"
+        "Agent",
+        "vector3"
     ]
 }
