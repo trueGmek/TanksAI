@@ -35,13 +35,7 @@ namespace Editor.RemoteControl
             Packet packet = new Packet();
             packet.id = "test";
             packet.type = Type.Log;
-            var payload = new LogPayload
-            {
-                level = type.ToString(),
-                message = log,
-                stackTrace = stackTrace,
-                file = "IDK"
-            };
+            var payload = new LogPayload(log, stackTrace, type);
             packet.payload = JObject.FromObject(payload);
             return JsonConvert.SerializeObject(packet, new JsonSerializerSettings { Formatting = Formatting.Indented, Converters = { new StringEnumConverter() } });
         }

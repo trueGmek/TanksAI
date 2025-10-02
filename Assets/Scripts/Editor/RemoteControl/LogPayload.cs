@@ -1,3 +1,4 @@
+using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 
 namespace Editor.RemoteControl
@@ -18,5 +19,30 @@ namespace Editor.RemoteControl
 
     [JsonProperty("line")] // Line number in the source file
     public int line { get; set; }
+
+    public LogPayload(string log, string stackTrace, UnityEngine.LogType type)
+    {
+      level = type.ToString();
+      message = log;
+      this.stackTrace = stackTrace;
+      var fileLinePair = RetrieveFilePath(stackTrace);
+      file = fileLinePair.Item1;
+      line = fileLinePair.Item2;
+    }
+
+    private static (string, int) RetrieveFilePath(string stackTrace)
+    {
+      const string pattern = @"\(at\s*(?<filepath>.*?):(?<lineNumber>\d+)\)";
+
+      Match match = Regex.Match(stackTrace, pattern);
+
+      if (match.Success == false)
+        return (string.Empty, 0);
+      
+      var filePath = match.Groups["filepath"].Value;
+      var lineNumber = match.Groups["lineNumber"].Value;
+      return (filePath, System.Int32.Parse(lineNumber));
+
+    }
   }
 }
