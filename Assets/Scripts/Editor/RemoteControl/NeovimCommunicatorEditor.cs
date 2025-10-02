@@ -24,22 +24,16 @@ namespace Editor.RemoteControl
 
       if (pipeCommunicator.IsRunning == false)
       {
-        if (GUILayout.Button("Start the server"))
-        {
+        if (GUILayout.Button("Start the server")) 
           pipeCommunicator.Start();
-        }
       }
       else
       {
-        if (GUILayout.Button("Kill the server"))
-        {
+        if (GUILayout.Button("Kill the server")) 
           pipeCommunicator.Stop();
-        }
 
-        if (GUILayout.Button("Send Test Message to Neovim"))
-        {
+        if (GUILayout.Button("Send Test Message to Neovim")) 
           pipeCommunicator.SendMessage("TEST MESSAGE");
-        }
       }
     }
 

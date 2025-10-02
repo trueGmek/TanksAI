@@ -5,13 +5,13 @@ namespace Editor.RemoteControl
 {
   public class ResponsePayload : Payload
   {
-    [JsonProperty("status")] // "Success" or "Error"
+    [JsonProperty("status")] 
     public string status { get; set; }
 
-    [JsonProperty("message")] // Human-readable result
+    [JsonProperty("message")] 
     public string message { get; set; }
 
-    [JsonProperty("data")] // For optional metadata like compilation duration, test results, etc.
-    public Dictionary<string, object> data { get; set; } = new Dictionary<string, object>();
+    [JsonProperty("data")] 
+    public Dictionary<string, object> data { get; set; } = new();
   }
 }

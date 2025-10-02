@@ -3,12 +3,25 @@ using Newtonsoft.Json;
 
 namespace Editor.RemoteControl
 {
+  public enum Action
+  {
+    Recompile,
+    RunTest
+  }
+
   public class CommandPayload : Payload
   {
-    [JsonProperty("action")] // e.g., "Recompile", "RunTest"
-    public string action { get; set; }
+    [JsonProperty("action")] public Action action { get; set; }
 
-    [JsonProperty("arguments")] // Using Dictionary<string, object> for flexible key-value arguments
-    public Dictionary<string, object> arguments { get; set; } = new Dictionary<string, object>();
+    [JsonProperty("arguments")] public Dictionary<string, object> arguments { get; set; } = new();
+  }
+
+  public static class RecompileCommandResolver
+  {
+    public static void Resolve(CommandPayload commandPayload)
+    {
+      UnityEditor.AssetDatabase.Refresh();
+      Unity.CodeEditor.CodeEditor.CurrentEditor.SyncAll();
+    }
   }
 }

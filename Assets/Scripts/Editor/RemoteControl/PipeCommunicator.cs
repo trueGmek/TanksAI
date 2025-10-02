@@ -42,17 +42,17 @@ namespace Editor.RemoteControl
 
     private void HandleLog(string log, string stackTrace, LogType type)
     {
-      writingQueue.Enqueue(Handler.GenerateLogPacket(log, stackTrace, type));
+      writingQueue.Enqueue(CommandHandler.GenerateLogPacket(log, stackTrace, type));
     }
 
     private void Update()
     {
-      bool wasSuccessful = readingQueue.TryDequeue(out var result);
+      var wasSuccessful = readingQueue.TryDequeue(out var result);
 
       if (wasSuccessful)
       {
-        UnityEngine.Debug.Log($"Got message from pipe: {result}");
-        Handler.Process(result);
+        Debug.Log($"Got message from pipe: {result}");
+        CommandHandler.Process(result);
       }
     }
 
@@ -62,20 +62,17 @@ namespace Editor.RemoteControl
       {
         readPipe = new NamedPipeServerStream(READ_PIPE_NAME, PipeDirection.In);
 
-        UnityEngine.Debug.Log($"Waiting for connection on the: {READ_PIPE_NAME}");
+        Debug.Log($"Waiting for connection on the: {READ_PIPE_NAME}");
         readPipe.WaitForConnection();
 
-        UnityEngine.Debug.Log($"Client connected to: {READ_PIPE_NAME}");
+        Debug.Log($"Client connected to: {READ_PIPE_NAME}");
 
-        using (StreamReader streamReader = new StreamReader(readPipe))
+        using (var streamReader = new StreamReader(readPipe))
         {
           while (IsRunning)
           {
-            string message = streamReader.ReadLine();
-            if (message.Length != 0)
-            {
-              readingQueue.Enqueue(message);
-            }
+            var message = streamReader.ReadLine();
+            if (message.Length != 0) readingQueue.Enqueue(message);
 
             Thread.Sleep(100);
           }
@@ -107,18 +104,15 @@ namespace Editor.RemoteControl
       {
         writePipe = new NamedPipeServerStream(WRITE_PIPE_NAME, PipeDirection.Out);
 
-        UnityEngine.Debug.Log($"Waiting for connection on: {WRITE_PIPE_NAME}");
+        Debug.Log($"Waiting for connection on: {WRITE_PIPE_NAME}");
         writePipe.WaitForConnection();
-        UnityEngine.Debug.Log($"Client connected to: {WRITE_PIPE_NAME}");
+        Debug.Log($"Client connected to: {WRITE_PIPE_NAME}");
 
-        using (StreamWriter streamWriter = new StreamWriter(writePipe))
+        using (var streamWriter = new StreamWriter(writePipe))
         {
           while (IsRunning)
           {
-            while (writingQueue.TryDequeue(out var result))
-            {
-              streamWriter.WriteLine(result);
-            }
+            while (writingQueue.TryDequeue(out var result)) streamWriter.WriteLine(result);
 
             streamWriter.Flush();
             Thread.Sleep(100);

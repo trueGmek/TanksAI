@@ -34,15 +34,14 @@ namespace Editor.RemoteControl
     {
       const string pattern = @"\(at\s*(?<filepath>.*?):(?<lineNumber>\d+)\)";
 
-      Match match = Regex.Match(stackTrace, pattern);
+      var match = Regex.Match(stackTrace, pattern);
 
       if (match.Success == false)
         return (string.Empty, 0);
-      
+
       var filePath = match.Groups["filepath"].Value;
       var lineNumber = match.Groups["lineNumber"].Value;
-      return (filePath, System.Int32.Parse(lineNumber));
-
+      return (filePath, int.Parse(lineNumber));
     }
   }
 }
