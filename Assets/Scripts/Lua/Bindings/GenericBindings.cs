@@ -38,9 +38,9 @@ namespace Lua.Bindings
     private static ValueTask<int> Log(LuaFunctionExecutionContext context, Memory<LuaValue> buffer,
       CancellationToken cancellationToken)
     {
-      string arg0 = context.GetArgument<string>(0);
+      LuaValue arg0 = context.GetArgument(0);
 
-      LogCore(arg0);
+      LogCore(arg0.ToString());
 
       return new ValueTask<int>(0);
     }

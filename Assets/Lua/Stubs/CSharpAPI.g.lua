@@ -21,11 +21,6 @@ function Agent:move(direction) end
 --- @return Vector3 
 function Opponent:GetPosition() end
 
---- @class Vector3
---- @field X number 
---- @field Y number 
---- @field Z number 
-
 --- Delays the execution for number of milliseconds
 --- @param milliseconds number 
 function Wait(milliseconds) end

@@ -44,6 +44,11 @@ function Vector3.__div(vector, number)
   return Vector3.new(vector.X / number, vector.Y / number, vector.Z / number)
 end
 
+---Vector3 constructor
+---@param x number
+---@param y number
+---@param z number
+---@return Vector3
 function Vector3.new(x, y, z)
   local self = setmetatable({
     X = x or 0,
