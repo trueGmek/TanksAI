@@ -1,3 +1,6 @@
 [submodule "SourceGenerator"]
 	path = SourceGenerator
 	url = ./SourceGenerator
+[submodule "Packages/com.gmek.c-unity"]
+	path = Packages/com.gmek.c-unity
+	url = git@github.com:trueGmek/com.gmek.c-unity.git
