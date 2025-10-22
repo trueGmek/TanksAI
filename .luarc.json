@@ -1,7 +1,11 @@
 {
+    "workspace.library": [
+        "Assets/Lua"
+    ],
     "diagnostics.globals": [
         "log",
         "Agent",
-        "vector3"
+        "Opponent",
+        "Wait"
     ]
 }
