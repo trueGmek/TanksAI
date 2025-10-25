@@ -1,7 +1,8 @@
 # TanksAI
 
-<Project description>
-
+<div align="center">
+<img alt="Tank" height="350" src="logo.png" />
+</div>
 
 # TODO
 
