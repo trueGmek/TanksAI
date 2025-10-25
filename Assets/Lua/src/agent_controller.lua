@@ -1,4 +1,5 @@
-local Vector = require("Assets/Lua/Modules/vector3")
+-- TODO: This should be either "module/vector3" or just "vector3"
+local Vector = require("Assets/Lua/modules/vector3")
 local M = {};
 
 M.Start = function()

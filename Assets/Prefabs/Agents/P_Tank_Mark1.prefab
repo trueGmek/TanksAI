@@ -120,7 +120,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24d8d3f3ca630fd1ab1f06d187c93d17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  path: /home/gmek/Dev/Unity/TanksAI/Assets/Lua/Scripts/looped_agent.lua
+  path: /home/gmek/Dev/Unity/TanksAI/Assets/Lua/src/looped_agent.lua
   agent: {fileID: 8085201418243086244}
 --- !u!1 &4799090540431575713
 GameObject:

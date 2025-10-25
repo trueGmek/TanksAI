@@ -16,6 +16,8 @@ namespace Lua.Editor
   [InitializeOnLoad]
   public static class LuaStubsGenerator
   {
+    private const string PATH = "Lua/stubs/csharpAPI.g.lua";
+
     private const char NEW_LINE = '\n';
     private const char SPACE = ' ';
     private const char COMMA = ',';
@@ -24,14 +26,9 @@ namespace Lua.Editor
     private const char AT = '@';
     private const string COMMENT = "---";
 
-    private const BindingFlags FUNCTIONS_BINDING_FLAGS =
-      BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static;
-
-    private const BindingFlags METHODS_BINDING_FLAGS =
-      BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance;
-
-    private const BindingFlags PROPERTIES_BINDING_FLAGS =
-      BindingFlags.Public | BindingFlags.Instance;
+    private const BindingFlags FUNCTIONS_BINDING_FLAGS = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static;
+    private const BindingFlags METHODS_BINDING_FLAGS = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance;
+    private const BindingFlags PROPERTIES_BINDING_FLAGS = BindingFlags.Public | BindingFlags.Instance;
 
     private static Stopwatch _stopwatch = new Stopwatch();
 
@@ -168,7 +165,7 @@ namespace Lua.Editor
 
     private static string SaveDataToFile(StringBuilder stringBuilder)
     {
-      string path = Path.Combine(Application.dataPath, "Lua/Stubs/CSharpAPI.g.lua");
+      string path = Path.Combine(Application.dataPath, PATH);
 
       if (File.Exists(path))
         File.Delete(path);
