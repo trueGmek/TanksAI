@@ -1,0 +1,8 @@
+# Ignore .shader and .hlsl files completely for language stats
+# *.shader linguist-generated
+# *.hlsl linguist-generated
+
+# Ignore ALL files in the repository by default
+* linguist-vendored
+
+Assets/** linguist-vendored=false
