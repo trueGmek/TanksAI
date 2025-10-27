@@ -1,7 +1,6 @@
 using UnityEngine;
 using Lua;
 using Utils;
-using UnityEditor;
 using AI.Core;
 using Cysharp.Threading.Tasks;
 
@@ -54,12 +53,15 @@ namespace AI.Lua
       }
     }
 
+
+#if UNITY_EDITOR
     [Button("Select file")]
     private void SelectFile()
     {
-      path = EditorUtility.OpenFilePanelWithFilters("Select LUA script", "",
+      path = UnityEditor.EditorUtility.OpenFilePanelWithFilters("Select LUA script", "Assets/Lua/",
         new string[] { "Lua Files", "lua", "All files", "*" });
-      EditorUtility.SetDirty(this);
+      UnityEditor.EditorUtility.SetDirty(this);
     }
+#endif
   }
 }

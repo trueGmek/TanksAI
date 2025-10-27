@@ -53,6 +53,11 @@ namespace Lua
         Logger.LogError($"Runtime error: {e}", Tags.LUA_MANAGER);
         return null;
       }
+      catch (System.Exception e)
+      {
+        Logger.LogError($"Runtime error: {e}", Tags.LUA_MANAGER);
+        return null;
+      }
     }
   }
 }

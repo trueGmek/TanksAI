@@ -90,7 +90,6 @@ namespace AI.Lua
     [LuaExport(MOVE_METHOD_NAME, "Moves the agent to a world position")]
     private void Move(Vector3 direction)
     {
-      Logger.Log($"Executing move through lua on again: {_agent.name}", Tags.AGENT);
       _agent.Move(_agent.transform.position + _agent.transform.TransformDirection(direction));
     }
   }
