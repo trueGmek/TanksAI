@@ -22,10 +22,11 @@ Tasks that are next in line after the "In Progress" items are complete or blocke
    REQUIREMENT: I want to write unit tests for my Lua code
    CONSIDER: Maybe it would be possible to connect them to Unity's test runner
 
-
 - [ ] Implement a Hierarchical Finite State Machine that's usable from Lua
 
 - [ ] Implement a Behaviour Tree that's usable from Lua
+
+- [ ] Add inspect.lua https://github.com/kikito/inspect.lua/blob/master/inspect.lua
 
 ---
 
