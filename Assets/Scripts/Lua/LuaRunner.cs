@@ -1,6 +1,7 @@
 using System.IO;
 using Cysharp.Threading.Tasks;
 using Lua.Bindings;
+using Lua.Loaders;
 using Lua.Standard;
 using UnityEngine.Assertions;
 using Utils;
@@ -18,6 +19,7 @@ namespace Lua
     {
       Logger.Log("Setting up LUA state", Tags.LUA_MANAGER);
       State = LuaState.Create();
+      State.ModuleLoader = new InternalModuleLoader();
       State.OpenStandardLibraries();
 
       _genericBindings = new GenericBindings();
