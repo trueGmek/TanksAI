@@ -1,8 +1,7 @@
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
-using Utils;
-using Logger = Utils.Logger;
+using UnityEngine;
 
 namespace Lua
 {
@@ -22,23 +21,23 @@ namespace Lua
       return new LuaModule(moduleName, await File.ReadAllTextAsync(path, cancellationToken));
     }
 
-    private string ResolveModulePath(string moduleName)
+    private string ResolveModulePath(string modulePath)
     {
-      string path = moduleName.Contains('.') ? moduleName.Replace('.', Path.DirectorySeparatorChar) : moduleName;
+      string validatedPath = modulePath.Trim();
+
+      string path = validatedPath.Contains('.')
+        ? validatedPath.Replace('.', Path.DirectorySeparatorChar)
+        : validatedPath;
 
       if (!Path.HasExtension(path))
       {
         path += ".lua";
       }
 
-      Logger.Log($"Path: {path}", Tags.LUA);
-
       if (!path.Contains(luaScriptLocations))
       {
-        path = Path.Combine("Assets", "Lua", path);
+        path = Path.Combine(luaScriptLocations, path);
       }
-
-      Logger.Log($"Result: {path}", Tags.LUA);
 
       return path;
     }

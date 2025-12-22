@@ -17,9 +17,8 @@ namespace Lua.Tests
     {
       loader = new InternalModuleLoader();
       basePath = Path.Combine(Application.dataPath, "Lua");
-      testModulesPath = Path.Combine(basePath, "modules");
+      testModulesPath = Path.Combine(basePath, "modules", "test");
 
-      _ = Directory.CreateDirectory(testModulesPath);
       _ = Directory.CreateDirectory(Path.Combine(testModulesPath, "nested"));
       _ = Directory.CreateDirectory(Path.Combine(testModulesPath, "another", "path"));
     }
@@ -45,7 +44,7 @@ namespace Lua.Tests
       await File.WriteAllTextAsync(testFilePath, "return {}");
 
       // Act
-      bool exists = loader.Exists("modules/test_module");
+      bool exists = loader.Exists("modules/test/test_module");
 
       // Assert
       Assert.IsTrue(exists);
@@ -61,7 +60,7 @@ namespace Lua.Tests
       // Act
       //
       Debug.Log($"File created at: {testFilePath}");
-      bool exists = loader.Exists("modules.nested.module");
+      bool exists = loader.Exists("modules.test.nested.module");
 
       // Assert
       Assert.IsTrue(exists);
@@ -98,7 +97,21 @@ namespace Lua.Tests
     public void Exists_simple_FSM_Passes()
     {
       //Arrange
-      const string moduleName = "Assets/Lua/src/FSM/simple_fsm";
+      const string moduleName = "Assets/Lua/fsm/simple_fsm";
+
+      //Act
+      bool exists = loader.Exists(moduleName);
+
+      //Assert
+      Assert.IsTrue(exists);
+    }
+
+
+    [Test]
+    public void Exists_fsm_module_Passes()
+    {
+      //Arrange
+      const string moduleName = " modules.fsm.fsm";
 
       //Act
       bool exists = loader.Exists(moduleName);
