@@ -29,6 +29,19 @@
         "com.unity.nuget.newtonsoft-json": "3.2.1"
       }
     },
+    "com.psydack.uimgui": {
+      "version": "https://github.com/psydack/uimgui.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "37eb192e70a45ee3e77b75303babcb279426b165"
+    },
+    "com.unity.2d.sprite": {
+      "version": "1.0.0",
+      "depth": 0,
+      "source": "builtin",
+      "dependencies": {}
+    },
     "com.unity.ai.navigation": {
       "version": "2.0.8",
       "depth": 0,
